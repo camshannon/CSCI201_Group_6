@@ -95,7 +95,7 @@ public class SQLCalls {
 	public void leaveReview(String locationID, String userID, String review) {
 		try {
 			Statement st = conn.createStatement();
-			st.executeQuery("INSERT INTO Reviews (LocationID, UserID, Review, Upvotes, Downvotes) VALUES ('"
+			st.executeUpdate("INSERT INTO Reviews (LocationID, UserID, Review, Upvotes, Downvotes) VALUES ('"
 			+ locationID + "', '" + userID + "', '" + review + "', '0', '0')");
 			return;
 		} catch (SQLException e) {
@@ -107,32 +107,32 @@ public class SQLCalls {
 	public void leaveRating(String locationID, String userID, String elevatorRating, String rampRating, String doorRating, String otherRating) {
 		try {
 			Statement st = conn.createStatement();
-			st.executeQuery("INSERT INTO Ratings (UserID, LocationID, ElevatorRating, RampRating, DoorRating, Other) VALUES ('" +
+			st.executeUpdate("INSERT INTO Ratings (UserID, LocationID, ElevatorRating, RampRating, DoorRating, Other) VALUES ('" +
 			userID + "', '" + locationID + "', '" + elevatorRating + "', '" + rampRating + "', '" + doorRating + "', '" + otherRating + "')");
 			
 			// Set new elevator rating average
 			String newElevator = "";
 			ResultSet rs = st.executeQuery("IFNULL((SELECT AVG(ElevatorRating) FROM Ratings WHERE LocationID = '" + locationID + "'), 0)");
 			if (rs.next()) newElevator = rs.getString("ElevatorRating");
-			st.executeQuery("UPDATE Locations SET ElevatorRating='" + newElevator + "' WHERE LocationID = '" + locationID + "'");
+			st.executeUpdate("UPDATE Locations SET ElevatorRating='" + newElevator + "' WHERE LocationID = '" + locationID + "'");
 			
 			// Set new ramp rating average
 			String newRamp = "";
 			rs = st.executeQuery("IFNULL((SELECT AVG(RampRating) FROM Ratings WHERE LocationID = '" + locationID + "'), 0)");
 			if (rs.next()) newElevator = rs.getString("RampRating");
-			st.executeQuery("UPDATE Locations SET RampRating='" + newRamp + "' WHERE LocationID = '" + locationID + "'");
+			st.executeUpdate("UPDATE Locations SET RampRating='" + newRamp + "' WHERE LocationID = '" + locationID + "'");
 			
 			// Set new door rating average
 			String newDoor = "";
 			rs = st.executeQuery("IFNULL((SELECT AVG(DoorRating) FROM Ratings WHERE LocationID = '" + locationID + "'), 0)");
 			if (rs.next()) newElevator = rs.getString("DoorRating");
-			st.executeQuery("UPDATE Locations SET DoorRating='" + newDoor + "' WHERE LocationID = '" + locationID + "'");
+			st.executeUpdate("UPDATE Locations SET DoorRating='" + newDoor + "' WHERE LocationID = '" + locationID + "'");
 			
 			// Set new other rating average
 			String newOther = "";
 			rs = st.executeQuery("IFNULL((SELECT AVG(OtherRating) FROM Ratings WHERE LocationID = '" + locationID + "'), 0)");
 			if (rs.next()) newElevator = rs.getString("OtherRating");
-			st.executeQuery("UPDATE Locations SET OtherRating='" + newOther + "' WHERE LocationID = '" + locationID + "'");
+			st.executeUpdate("UPDATE Locations SET OtherRating='" + newOther + "' WHERE LocationID = '" + locationID + "'");
 			
 			return;
 			
