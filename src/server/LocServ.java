@@ -22,8 +22,8 @@ public class LocServ extends HttpServlet {
         super();
     }
 
-    //need to do figure out where we will take the averages of the ratings for each location
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    // What information do you want returned and in what form?
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		// Pass in location identifier to grab information
 		// (Question: Will we be passing in locationID or a MapKit identifier like lat/long?)
@@ -40,11 +40,12 @@ public class LocServ extends HttpServlet {
 			String locationPhone = locationCall.locationToPhone(locationID);
 			String locationSite = locationCall.locationToURL(locationID);
 			
-			/* Test output */
+			/* Test output
 			System.out.println(locationName);
 			System.out.println(locationAddress);
 			System.out.println(locationPhone);
 			System.out.println(locationSite);
+			*/
 		} else { // If not, let's add it
 			// DISCUSS HOW WE'RE GOING TO DO THIS WITH FRONT-END TEAM
 		}
